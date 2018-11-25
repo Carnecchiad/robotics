@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -16,13 +18,22 @@ public class MyOpMode extends OpMode {
     private DcMotor pullMotor;
     private ElapsedTime runtime = new ElapsedTime();
 
+    HardwareMap hwMap = null;
+    private GoldDetector goldDetector = null;
+
     @Override
     public void init() {
 
         //Hardware mapping
-        rightMotor = hardwareMap.get(DcMotor.class, "rightMotor");
-        leftMotor = hardwareMap.get(DcMotor.class, "leftMotor");
-        pullMotor = hardwareMap.get(DcMotor.class, "pullMotor");
+        rightMotor = hwMap.get(DcMotor.class, "rightMotor");
+        leftMotor = hwMap.get(DcMotor.class, "leftMotor");
+        pullMotor = hwMap.get(DcMotor.class, "pullMotor");
+        goldDetector = new GoldDetector();
+        goldDetector.init(hwMap.appContext, CameraViewDisplay.getInstance());
+
+
+
+        goldDetector.enable();
 
         telemetry.addData("status","initialized");
         telemetry.update();
